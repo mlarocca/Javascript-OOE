@@ -1,4 +1,4 @@
-**# Combining effective encapsulation and inheritance in JavaScript**
+## ** Combining effective encapsulation and inheritance in JavaScript**
 
 While developing a plugin for the D3 graphic library, I found myself facing one of the most common conundrum for a JavaScript programmer: how on Earth is it possible to get a good compromise between encapsulation and extensibility?
 
@@ -55,7 +55,7 @@ So, the only question is: how do we tell this proxy which properties should be e
 The answer is: there is no easy way using JavaScript, there is no such a construct, of course, otherwise we wouldn't be messing around with proxies and stuff, right?
 But, thanks to ECMAscript 5, we might have a loophole: enumerable properties! We could create a proxy that will expose only the public functions we declare in our objects, if we agree to consider a method public if and only if it is an enumerable property of its owner. We can then make all protected methods not enumerable (and probably not writable as well, but that's another story), and so we can build an automated way to systematically add to the proxy a... proxy method linking to each one of the public methods in our objects.
 
-    **EDIT:** Over the web you can find some good libraries that uses a similar idea but relies on naming conventions only: the risk is to move the concern from behaviour to aestetic, and might trick you if you use 3rd-party libs that uses a different naming convention. I think we can do better using ECMAScript 5 new features.
+    **EDIT** Over the web you can find some good libraries that uses a similar idea but relies on naming conventions only: the risk is to move the concern from behaviour to aestetic, and might trick you if you use 3rd-party libs that uses a different naming convention. I think we can do better using ECMAScript 5 new features.
     To make things a little bit clearer, I'd also suggest to have protected methods' names starting with __ (two underscores) in addition to declarying them non enumerable. But just _be aware that this naming convention isn't your main concern *(enumerability is)*_, and it's just for sake of clarity.
 
 
