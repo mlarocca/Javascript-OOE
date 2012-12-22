@@ -1,0 +1,278 @@
+{
+    "project": {},
+    "files": {
+        "example.js": {
+            "name": "example.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "oo_ext.js": {
+            "name": "oo_ext.js",
+            "modules": {
+                "ChartUtils": 1
+            },
+            "classes": {},
+            "fors": {
+                "Object": 1
+            },
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "ChartUtils": {
+            "name": "ChartUtils",
+            "submodules": {},
+            "classes": {
+                "Object": 1
+            },
+            "fors": {
+                "Object": 1
+            },
+            "namespaces": {},
+            "tag": "module",
+            "file": "oo_ext.js",
+            "line": 1,
+            "description": "Module ChartUtils\n        \nExtends Object class with several useful methods to allow better encapsulation mechanisms.<br>\nEffective encapsulation will be obtained by wrapping JS Objects in a wrapper object, a proxy\nthat will hide original object's attributes and protected methods, while exposing all of\nits public methods.<br>\nTo access public attributes of the original object, appropriate getters and setters needs\nto be declared.<br>\n<b>A method will be considered protected if and only if it is declared as NOT enumerable</b><br>\nFor a wider discussion on the topic, please go <a href=\"http://mlarocca.github.com\">here</a>."
+        }
+    },
+    "classes": {
+        "Object": {
+            "name": "Object",
+            "shortname": "Object",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ChartUtils",
+            "namespace": ""
+        }
+    },
+    "classitems": [
+        {
+            "file": "example.js",
+            "line": 4,
+            "access": "private",
+            "tagname": "Private (to Factory) pseudo-constructor for A-type objects",
+            "class": "Object"
+        },
+        {
+            "file": "example.js",
+            "line": 55,
+            "description": "Private (to Factory) pseudo-constructor for B-type objects",
+            "class": "Object"
+        },
+        {
+            "file": "oo_ext.js",
+            "line": 21,
+            "description": "Shortcut for defyning a method which will be considered\n                        public by createSafeProxy;<br>\n                        Usage: obj.addPublicMethod(\"name\", method)<br>\n                        to add function method to obj as property obj[\"name\"].",
+            "itemtype": "method",
+            "name": "addPublicMethod",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "methodName",
+                    "description": "The name of the new property to be added to this object<br>\n                                                      <b>WARNING</b>: if Object[methodName] exists, then it will\n                                                                      be overwritten.",
+                    "type": "String"
+                },
+                {
+                    "name": "method",
+                    "description": "The method body.",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "This object, to enable method chaining",
+                "type": "Object"
+            },
+            "throws": [
+                "<ul>\n                                    <li>    Wrong number of arguments Exception",
+                "if either is missing or null;</li>\n                                    <li>    Illegal Argument Exception",
+                "if methodName is not a String;</li>\n                                    <li>    Illegal Argument Exception",
+                "if method is not a Function.</li>\n                                </ul>"
+            ],
+            "class": "Object",
+            "module": "ChartUtils"
+        },
+        {
+            "file": "oo_ext.js",
+            "line": 63,
+            "description": "Shortcut for defyning a method which will be considered\n                        protected by createSafeProxy;<br>\n                        Usage: obj.addProtectedMethod(\"name\", method)<br>\n                        to add function method to obj as property obj[\"name\"].",
+            "itemtype": "method",
+            "name": "addProtectedMethod",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "methodName",
+                    "description": "The name of the new property to be added to this object<br>\n                                                      <b>WARNING</b>: if Object[methodName] exists, then it will\n                                                                      be overwritten.",
+                    "type": "String"
+                },
+                {
+                    "name": "method",
+                    "description": "The method body.",
+                    "type": "Function"
+                }
+            ],
+            "return": {
+                "description": "This object, to enable method chaining",
+                "type": "Object"
+            },
+            "throws": [
+                "<ul>\n                                    <li>    Wrong number of arguments Exception",
+                "if either is missing or null;</li>\n                                    <li>    Illegal Argument Exception",
+                "if methodName is not a String;</li>\n                                    <li>    Illegal Argument Exception",
+                "if method is not a Function.</li>\n                                </ul>"
+            ],
+            "class": "Object",
+            "module": "ChartUtils"
+        },
+        {
+            "file": "oo_ext.js",
+            "line": 104,
+            "description": "Creates and returns a safe proxy for the object passed, \n                        that will wrap around it and expose only those methods\n                        marked as public (i.e. those that are declared as enumerable).",
+            "itemtype": "method",
+            "name": "createSafeProxy",
+            "chainable": 1,
+            "params": [
+                {
+                    "name": "canDestroy",
+                    "description": "States if the proxy consumer has the authority\n                                                            to call destroy on the original object;<br>\n                                                            We assume the convention that object's uses\n                                                            destroy method as their destructor.",
+                    "type": "Boolean",
+                    "optional": true,
+                    "optdefault": "false"
+                }
+            ],
+            "return": {
+                "description": "A proxy wrapping this object.",
+                "type": "Object"
+            },
+            "throws": [
+                "Any exception the original object pseudo-constructor might throw."
+            ],
+            "class": "Object",
+            "module": "ChartUtils"
+        },
+        {
+            "file": "oo_ext.js",
+            "line": 168,
+            "itemtype": "method",
+            "name": "superMethod",
+            "params": [
+                {
+                    "name": "methodName",
+                    "description": "The name of the method to look up for in this object super object",
+                    "type": "String"
+                },
+                {
+                    "name": "args",
+                    "description": "The arguments to be passed to the super method, if any is needed;",
+                    "optional": true,
+                    "multiple": true
+                }
+            ],
+            "return": {
+                "description": "The result of the call to the method named methodName of this object's super object."
+            },
+            "throws": [
+                "<ul>\n                                    <li>Wrong number of arguments Exception",
+                "if methodName is missing or null;</li>\n                                    <li>Illegal Argument Exception",
+                "if methodName is not a String;</li>                                                                    \n                                    <li>Method not found Exception",
+                "if the super object has no such method.</li>\n                                </ul>"
+            ],
+            "class": "Object",
+            "module": "ChartUtils"
+        },
+        {
+            "file": "oo_ext.js",
+            "line": 199,
+            "description": "Checks if its argument is an array.",
+            "itemtype": "method",
+            "name": "isArray",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "The argument to be checked.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "true iff the object is an Array.",
+                "type": "Boolean"
+            },
+            "class": "Object",
+            "module": "ChartUtils"
+        },
+        {
+            "file": "oo_ext.js",
+            "line": 211,
+            "description": "Checks if its argument is a string.",
+            "itemtype": "method",
+            "name": "isString",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "The argument to be checked.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "true iff the object is a String.",
+                "type": "Boolean"
+            },
+            "class": "Object",
+            "module": "ChartUtils"
+        },
+        {
+            "file": "oo_ext.js",
+            "line": 223,
+            "description": "Checks if its argument is a Function.",
+            "itemtype": "method",
+            "name": "isFunction",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "The argument to be checked.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "true iff the object is a Function.",
+                "type": "Boolean"
+            },
+            "class": "Object",
+            "module": "ChartUtils"
+        },
+        {
+            "file": "oo_ext.js",
+            "line": 235,
+            "description": "Checks if its argument is a Number.",
+            "itemtype": "method",
+            "name": "isNumber",
+            "params": [
+                {
+                    "name": "obj",
+                    "description": "The argument to be checked.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "true iff the object is a Number.",
+                "type": "Boolean"
+            },
+            "class": "Object",
+            "module": "ChartUtils"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type",
+            "line": " example.js:4"
+        },
+        {
+            "message": "Missing item type\nPrivate (to Factory) pseudo-constructor for B-type objects",
+            "line": " example.js:55"
+        }
+    ]
+}
