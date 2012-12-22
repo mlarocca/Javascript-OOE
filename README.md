@@ -1,4 +1,4 @@
-## ** Combining effective encapsulation and inheritance in JavaScript**
+## **Combining effective encapsulation and inheritance in JavaScript**
 
 While developing a plugin for the D3 graphic library, I found myself facing one of the most common conundrum for a JavaScript programmer: how on Earth is it possible to get a good compromise between encapsulation and extensibility?
 

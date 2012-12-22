@@ -1,3 +1,18 @@
+	/**
+		Module ChartUtils
+        
+Extends Object class with several useful methods to allow better encapsulation mechanisms.<br>
+Effective encapsulation will be obtained by wrapping JS Objects in a wrapper object, a proxy
+that will hide original object's attributes and protected methods, while exposing all of
+its public methods.<br>
+To access public attributes of the original object, appropriate getters and setters needs
+to be declared.<br>
+<b>A method will be considered protected if and only if it is declared as NOT enumerable</b><br>
+For a wider discussion on the topic, please go <a href="http://mlarocca.github.com">here</a>.
+        
+        @module ChartUtils           
+	*/
+
 if (!window.OO_Ext){
     var OO_Ext =  (function(){
                     
@@ -6,14 +21,19 @@ if (!window.OO_Ext){
                     /** addPublicMethod(methodName, method)
                         
                         Shortcut for defyning a method which will be considered
-                        public by createSafeProxy;
+                        public by createSafeProxy;<br>
+                        Usage: obj.addPublicMethod("name", method)<br>
+                        to add function method to obj as property obj["name"].
                         
-                        @param methodName {string}    The name of the new property to be added to this object
-                                                        WARNING: if Object[methodName] exists, then it will
-                                                                 be overridden.
+                        @method addPublicMethod
+                        @for Object
+                        @chainable
+                        @param  {String} methodName    The name of the new property to be added to this object<br>
+                                                      <b>WARNING</b>: if Object[methodName] exists, then it will
+                                                                      be overwritten.
                         @param method {Function}       The method body.
-                        
-                        @throw   
+                        @return {Object} This object, to enable method chaining
+                        @throws   
                                 <ul>
                                     <li>    Wrong number of arguments Exception, if either is missing or null;</li>
                                     <li>    Illegal Argument Exception, if methodName is not a String;</li>
@@ -37,19 +57,25 @@ if (!window.OO_Ext){
                             enumerable: true,
                             configurable:false
                         });
+                        return this;    //Chainable
                     }   
 
                     /** addProtectedMethod(methodName, method)
                         
                         Shortcut for defyning a method which will be considered
-                        protected by createSafeProxy;
+                        protected by createSafeProxy;<br>
+                        Usage: obj.addProtectedMethod("name", method)<br>
+                        to add function method to obj as property obj["name"].
                         
-                        @param methodName {string}    The name of the new property to be added to this object
-                                                        WARNING: if Object[methodName] exists, then it will
-                                                                 be overridden.
+                        @method addProtectedMethod
+                        @for Object
+                        @chainable
+                        @param  {String} methodName    The name of the new property to be added to this object<br>
+                                                      <b>WARNING</b>: if Object[methodName] exists, then it will
+                                                                      be overwritten.
                         @param method {Function}       The method body.
-                        
-                        @throw   
+                        @return {Object} This object, to enable method chaining
+                        @throws   
                                 <ul>
                                     <li>    Wrong number of arguments Exception, if either is missing or null;</li>
                                     <li>    Illegal Argument Exception, if methodName is not a String;</li>
@@ -77,16 +103,20 @@ if (!window.OO_Ext){
 
                     /** createSafeProxy()
                     
-                        Creates and returns a safe proxy for the object passed
+                        Creates and returns a safe proxy for the object passed, 
                         that will wrap around it and expose only those methods
-                        that are declared as enumerable.
+                        marked as public (i.e. those that are declared as enumerable).
                         
-                        @param {boolean, default=false} CanDestroy 
-                                         States if the proxy consumer has the authority to call destroy 
-                                         on the original object
                         
-                        @return {Object} A proxy wrapping this object;
-                        @throw  Any exception the original object pseudo-constructor might throw.
+                        @method createSafeProxy
+                        @for Object
+                        @chainable
+                        @param {Boolean} [canDestroy=false] States if the proxy consumer has the authority
+                                                            to call destroy on the original object;<br>
+                                                            We assume the convention that object's uses
+                                                            destroy method as their destructor.
+                        @return {Object} A proxy wrapping this object.
+                        @throws  Any exception the original object pseudo-constructor might throw.
                       */
                     function createSafeProxy(canDestroy){
                         
@@ -137,10 +167,12 @@ if (!window.OO_Ext){
 
                    /** superMethod(methodName)
                        
-                       @param methodName {string} The name of the method to look up for in this object super object 
-                       @param ...args The arguments to be passed to the super method, if any is needed;
-                       @return  The method named methodName in the super object, if any
-                       @throw
+                       @method superMethod
+                       @for Object
+                       @param {String} methodName The name of the method to look up for in this object super object 
+                       @param [args]* The arguments to be passed to the super method, if any is needed;
+                       @return The result of the call to the method named methodName of this object's super object.
+                       @throws
                                 <ul>
                                     <li>Wrong number of arguments Exception, if methodName is missing or null;</li>
                                     <li>Illegal Argument Exception, if methodName is not a String;</li>                                                                    
@@ -148,7 +180,6 @@ if (!window.OO_Ext){
                                 </ul>
                      */
                     function superMethod(methodName /*, args*/){
-                        //console.log(this, methodName);
                         if (!methodName){
                             throw "Wrong number of arguments Exception";
                         }
@@ -158,7 +189,6 @@ if (!window.OO_Ext){
                         
                         //Looks up for this object's prototype
                         var proto = this.prototype && this.prototype[methodName] ? this.prototype : this.__proto__;
-                        //console.log(this.prototype, this.__proto__, proto[methodName]);
                         if (proto && proto[methodName] && Object.isFunction(proto[methodName])){
                             return proto[methodName].apply(proto, Array.prototype.slice.apply(arguments, [1]));
                         }else{
@@ -166,18 +196,50 @@ if (!window.OO_Ext){
                         }
                     }   
 
+                    /** 
+                        Checks if its argument is an array.
+                        
+                        @method isArray
+                        @for Object
+                        @param {Object} obj The argument to be checked.
+                        @return {Boolean} true iff the object is an Array.
+                    */                      
                     function isArray(obj){
                         return obj && (obj.constructor === Array);
                     }
                     
+                    /** 
+                        Checks if its argument is a string.
+                        
+                        @method isString
+                        @for Object
+                        @param {Object} obj The argument to be checked.
+                        @return {Boolean} true iff the object is a String.
+                    */                      
                     function isString(arg) {
                         return typeof(arg) === 'string';
                     }
                     
+                    /** 
+                        Checks if its argument is a Function.
+                        
+                        @method isFunction
+                        @for Object
+                        @param {Object} obj The argument to be checked.
+                        @return {Boolean} true iff the object is a Function.
+                    */                    
                     function isFunction(arg) {
                         return typeof(arg) === 'function';
                     }  
                     
+                    /** 
+                        Checks if its argument is a Number.
+                        
+                        @method isNumber
+                        @for Object
+                        @param {Object} obj The argument to be checked.
+                        @return {Boolean} true iff the object is a Number.
+                    */                    
                     function isNumber(n){
                         return !isNaN(parseFloat(n)) && isFinite(n);
                     }                     
