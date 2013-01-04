@@ -17,6 +17,8 @@ var Factory = ( function(){
             //Public attribute: it will also be visible to Object_A and every Object directly inheriting from it...
         obj_A.publicAttribute1 = 1;  //[1 is a placeholder for any value you might want]
             //                  but by defining a proper getter and setter, consumers will be able to modify it                        
+        obj_A.publicAttribute2 = 1;  //[1 is a placeholder for any value you might want]
+            //                  but by defining a proper getter and setter, consumers will be able to modify it                        
         obj_A.addPublicMethod("setPublicAttribute1", 
                                 function(val){
                                     //Special care is needed to ensure inheritance-compliancy
@@ -28,6 +30,14 @@ var Factory = ( function(){
                                     }
                                     return this;
                                 });
+        obj_A.addPublicMethod("setPublicAttribute2", 
+                                function(val){
+                                    //Another way to ensure inheritance-compliancy is using support method setProperty 
+                                    //added to Object by OO_ExT library
+                                    this.setProperty("publicAttribute2", val);
+                                    
+                                    return this;
+                                });                                
         obj_A.addPublicMethod("getPublicAttribute1", function(){return this.publicAttribute1;});
         
         obj_A.publicMethod1 = function(m_arg1){

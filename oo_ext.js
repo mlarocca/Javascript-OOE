@@ -196,6 +196,51 @@ if (!window.OO_Ext){
                         }
                     }   
 
+                    /** setProperty(property, value)
+                       
+                       Assign the value "value" to the property "property" of the current object.<br>
+                       "property" MUST be an existing property of current object or of its ancestors:
+                       if this[property] is undefined, it recursively checks along its inheritance chain. 
+                       
+                       @method setProperty
+                       @for Object
+                       @chainable
+                       @param {String} property The name of the property to look up for in this object and its super object.
+                       @param value The value to be assigned to the property.
+                       @return This object, to allow for method chaining
+                       @throws
+                                <ul>
+                                    <li>Wrong number of arguments Exception, if property is missing or null; (undefined is accepted for value)</li>
+                                    <li>Illegal Argument Exception, if property is not a String;</li>                                                                    
+                                    <li>Method not found Exception, if neither this object or its super object has such a property.</li>
+                                    <li>TypeError, if property exists but it isn't writable.</li>
+                                </ul>
+                     */
+                    function setProperty(property, value){
+                        if (!property){
+                            throw "Wrong number of arguments Exception";
+                        }
+                        if (!Object.isString(property)){
+                            throw "Illegal Argument Exception: property must be a string";
+                        }    
+                        
+                        if (this.hasOwnProperty(property)){
+                            this[property] = value;
+                            return this;
+                        }
+                        
+                        //Looks up for this object's prototype
+                        var proto = this.prototype && this.prototype[property] ? this.prototype : this.__proto__;
+                        if (proto && !Object.isUndefined(proto[property])){
+                            proto.setProperty(property, value);
+                            return this;
+                        }else{
+                            throw "Super object has no property " + property;
+                        }
+                        
+                    }
+                  
+                    
                     /** 
                         Checks if its argument is an array.
                         
@@ -242,7 +287,19 @@ if (!window.OO_Ext){
                     */                    
                     function isNumber(n){
                         return !isNaN(parseFloat(n)) && isFinite(n);
-                    }                     
+                    }   
+
+                    /** 
+                        Checks if its argument is undefined.
+                        
+                        @method isUndefined
+                        @for Object
+                        @param {Object} arg The argument to be checked.
+                        @return {Boolean} true <=> the argument is undefined.
+                    */              
+                    function isUndefined(arg){
+                        return typeof(arg) === "undefined";
+                    };                     
                     
                     if (!Object.prototype.addPublicMethod){
                         Object.defineProperty(Object.prototype, "addPublicMethod", {
@@ -279,7 +336,16 @@ if (!window.OO_Ext){
                                                 configurable: false
                                             });
                     }
-                                     
+                            
+                    if (!Object.prototype.setProperty){
+                        Object.defineProperty(Object.prototype, "setProperty", {
+                                                value: setProperty,
+                                                writable: false,
+                                                enumerable: false,
+                                                configurable: false
+                                            });
+                    }  
+                    
                     if (!Object.prototype.isArray){
                         Object.defineProperty(Object.prototype, "isArray", {
                                                 value: isArray,
@@ -315,5 +381,14 @@ if (!window.OO_Ext){
                                                 configurable: false
                                             });  
                     }
+
+                    if (!Object.prototype.isUndefined){
+                        Object.defineProperty(Object.prototype, "isUndefined", {
+                                                value: isUndefined,
+                                                writable: false,
+                                                enumerable: false,
+                                                configurable: false
+                                            }); 
+                    }                      
     })();
 }
